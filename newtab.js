@@ -145,17 +145,26 @@ loadGoals();
 let timerTime = 25 * 60;
 let timerInterval;
 let totalTime;
+
 function startTimer() {
   clearInterval(timerInterval);
   const minutes = parseInt(document.getElementById('timer-minutes').value) || 25;
-  timerTime = minutes * 60;
+  timerTime = minutes * 60; // Tổng thời gian tính bằng giây
   totalTime = timerTime;
+  startTime = Date.now(); // Lấy thời gian bắt đầu
   document.getElementById('timer-progress').style.width = '100%';
+
   timerInterval = setInterval(() => {
-      timerTime--;
+      // Tính thời gian đã trôi qua kể từ khi bắt đầu
+      const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
+      timerTime = totalTime - elapsedTime; // Cập nhật thời gian còn lại
+
       updateTimerDisplay();
+
       if (timerTime <= 0) {
           clearInterval(timerInterval);
+          timerTime = 0; // Đảm bảo không xuống âm
+          updateTimerDisplay();
           document.getElementById('timer-progress').style.width = '0%';
           playAlertSound();
       }
