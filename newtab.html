@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Tab</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playwrite+IT+Moderna:wght@100..400&display=swap"
+        rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.pinimg.com/474x/89/aa/7b/89aa7b11da7af4138290069c68dc6d6d.jpg">
+
+    <style>
+        * {
+            word-wrap: break-word !important;
+        }
+
+        body {
+            overflow: hidden;
+            margin: 0;
+            padding: 0;
+            background: url("https://i.pinimg.com/736x/14/62/b8/1462b884446f4e58f5686aa78e05436c.jpg");
+            background-size: cover;
+            font-family: "Playwrite IT Moderna", sans-serif;
+            font-size: 12px;
+        }
+
+        .container {
+            overflow: hidden;
+        }
+
+        .parent {
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(7, 1fr);
+            gap: 8px;
+            padding: 10px;
+            box-sizing: border-box;
+        }
+
+        .div1 {
+            grid-column: span 2 / span 2;
+            grid-row: span 6 / span 6;
+        }
+
+        .div2 {
+            grid-column: span 2 / span 2;
+            grid-row: span 5 / span 5;
+            grid-column-start: 3;
+        }
+
+        .div3 {
+            grid-column: span 2 / span 2;
+            grid-row: span 2 / span 2;
+            grid-column-start: 5;
+            grid-row-start: 2;
+        }
+
+        .div4 {
+            grid-column: span 2 / span 2;
+            grid-column-start: 3;
+            grid-row-start: 6;
+        }
+
+        .div6 {
+            grid-column: span 1 / span 2;
+            grid-column-start: 5;
+            grid-row-start: 1;
+            margin: 10px;
+        }
+
+        .div7 {
+
+            grid-column-start: 1;
+            grid-row-start: 7;
+        }
+
+        .div8 {
+            grid-row: span 2 / span 2;
+            grid-column-start: 6;
+            grid-row-start: 6;
+        }
+
+        .div9 {
+            grid-column: span 4 / span 4;
+            grid-column-start: 2;
+            grid-row-start: 7;
+        }
+
+        .div10 {
+            grid-column: 5 / span 2;
+            /* Bắt đầu từ cột 5, chiếm 2 cột */
+            grid-row: 4 / span 2;
+            /* Bắt đầu từ hàng 4, chiếm 2 hàng */
+        }
+
+
+        .part {
+            background: rgba(71, 84, 187, 0.7);
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: auto;
+        }
+
+        .widget {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .widget h2 {
+            color: #e0dcff;
+            font-size: 1.2em;
+            margin: 0 0 8px 0;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 6px;
+            margin: 4px 0;
+            border: 1px solid #c4e1fc;
+            border-radius: 5px;
+            background: #ffffff;
+            color: #333;
+            font-size: 0.9em;
+            box-sizing: border-box;
+        }
+
+        textarea {
+            resize: vertical;
+            height: 100%;
+            margin: 0;
+        }
+
+        button {
+            background: #8d8df1;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            margin: 4px 0;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #b7bdff;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        li {
+            padding: 6px;
+            background: #ffffff;
+            margin: 4px 0;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 0.9em;
+        }
+
+        .delete-btn {
+            background: #ff5252;
+            padding: 4px 8px;
+            margin-left: 8px;
+        }
+
+        .delete-btn:hover {
+            background: #d32f2f;
+        }
+
+        .deadline-time {
+            color: #9baaff;
+            font-size: 0.8em;
+            margin-left: 8px;
+        }
+
+        .div8 .widget #timer-display {
+            position: relative;
+            width: 100%;
+            background: #3984ce;
+            border-radius: 5px;
+            color: white;
+            font-size: 0.5rem;
+            text-align: center;
+            margin: 8px 0;
+            overflow: hidden;
+        }
+
+        #timer-progress {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 100%;
+            background: #1e45a9;
+            width: 100%;
+            transition: width 1s linear;
+        }
+
+        #timer-text {
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-buttons {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 8px;
+        }
+
+        .timer-buttons button {
+            flex: 1;
+            margin: 0 4px;
+        }
+
+        .div4 .widget.clock {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .clock-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            padding: 10px 20px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(79, 147, 196, 0.5);
+            font-family: 'Orbitron', sans-serif;
+            gap: 10px;
+        }
+
+        #clock-display {
+            font-size: 1em;
+            color: #dcd4f5;
+        }
+
+        #day-display {
+            font-size: 1em;
+            color: #b1d2ff;
+            text-transform: uppercase;
+        }
+
+        #clock-icon {
+            font-size: 1.5em;
+            color: #a9aef1;
+        }
+
+        .div7 {
+            overflow: hidden;
+        }
+
+        .div7 .widget.weather {
+            overflow: hidden;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px;
+        }
+
+        .weather-info-container {
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .div7 .widget.weather p {
+            overflow: hidden;
+            color: #ffffff;
+            font-size: 0.9em;
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        #weather-icon {
+            overflow: hidden;
+            font-size: 1.5em;
+            color: #aea7f7;
+        }
+
+        .goals-input-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .goals-input-container input {
+            flex-grow: 1;
+        }
+
+        .goals-input-container button {
+            padding: 6px;
+            width: auto;
+        }
+
+        .deadlines-input-container {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .deadlines-input-container input[type="datetime-local"] {
+            flex-grow: 1;
+        }
+
+        .deadlines-input-container button {
+            padding: 6px;
+            width: auto;
+        }
+
+        .div9 .widget.often-used {
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 10px;
+            justify-items: center;
+            align-items: center;
+        }
+
+        .often-used-item {
+            text-align: center;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .often-used-item img {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        .often-used-item .default-icon {
+            width: 32px;
+            height: 32px;
+            background: #b1b7ff;
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .often-used-item span {
+            display: block;
+            margin-top: 5px;
+            color: #d4e5ff;
+            font-size: 0.9em;
+        }
+
+        .context-menu {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #eff2ff;
+            border-radius: 5px;
+            padding: 5px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            top: 100%;
+            left: 0;
+        }
+
+        .context-menu input {
+            width: 120px;
+            margin: 2px 0;
+        }
+
+        .context-menu button {
+            padding: 4px;
+            width: 100%;
+        }
+
+        /* Google Services trong div6 (mới) */
+        .div6 .widget.google-services {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            /* Giảm khoảng cách giữa các mục */
+            border-radius: 15px;
+            /* Bo góc giống hình */
+            box-shadow: none;
+        }
+
+        .google-service-item {
+            margin: 0 2rem;
+            text-align: center;
+            color: #e4dded;
+            cursor: pointer;
+            font-size: 0.9em;
+            flex: 0 0 auto;
+            /* Không mở rộng, chỉ vừa đủ nội dung */
+        }
+
+        .google-service-item img {
+            width: 24px;
+            /* Kích thước icon giống hình */
+            height: 24px;
+            border-radius: 5px;
+            /* Bo góc nhẹ */
+            object-fit: contain;
+        }
+
+        .google-service-item span {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8em;
+            /* Chữ nhỏ hơn */
+        }
+
+        .avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            /* Hình tròn cho avatar */
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .more-button {
+            color: #aac2dc;
+            font-size: 1.5em;
+            cursor: pointer;
+        }
+
+        .more-button::before {
+            content: '⋯';
+        }
+
+        /* Popup cho More */
+        .google-services-popup {
+            position: absolute;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            z-index: 1000;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 5px;
+            width: 9rem;
+        }
+
+        .google-services-popup .service-item {
+            text-align: center;
+            color: #666;
+            cursor: pointer;
+            font-size: 0.9em;
+            padding: 5px;
+        }
+
+        .google-services-popup .service-item img {
+            width: 24px;
+            height: 24px;
+            border-radius: 5px;
+            object-fit: contain;
+        }
+
+        .google-services-popup .service-item span {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.8em;
+        }
+
+        .div10 .widget.urgent-deadlines ul {
+            list-style: none;
+            padding: 0;
+            margin: 8px 0 0 0;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+
+        .div10 .widget.urgent-deadlines li {
+            padding: 6px;
+            background: #fff3f3;
+            margin: 4px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            font-size: 0.9em;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .div10 .widget.urgent-deadlines .deadline-time {
+            color: #d32f2f;
+        }
+
+        /* Popup danh sách bookmark */
+        #bookmark-popup {
+            position: fixed;
+            top: 50px;
+            right: 10px;
+            width: 300px;
+            max-height: 400px;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Icon bookmark */
+        #bookmark-icon {
+            cursor: pointer;
+        }
+
+        /* Popup hiển thị ngay dưới icon */
+        #bookmark-popup {
+            position: absolute;
+            width: 15rem;
+            max-height: 30rem;
+            overflow-y: auto;
+            background: white;
+            border: 1px solid #ccc;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            padding: 10px;
+            display: none;
+            z-index: 1000;
+        }
+
+        /* Danh sách bookmark */
+        #bookmark-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #bookmark-list li {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #bookmark-list li a {
+            text-decoration: none;
+            color: #333;
+            display: block;
+        }
+
+        #bookmark-list li:hover {
+            background: #f0f0f0;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <div class="parent">
+            <div class="part div1">
+                <div class="widget goals">
+                    <h2>Goals</h2>
+                    <div class="goals-input-container">
+                        <input type="text" id="goal-input" placeholder="Add Goal...">
+                        <button id="addGoal">Add</button>
+                    </div>
+                    <ul id="goal-list"></ul>
+                </div>
+            </div>
+            <div class="part div2">
+                <div class="widget deadlines">
+                    <h2>Deadline</h2>
+                    <input type="text" id="deadline-input" placeholder="Add deadline...">
+                    <div class="deadlines-input-container">
+                        <input type="datetime-local" id="deadline-time-input">
+                        <button id="adddl">Add</button>
+                    </div>
+                    <ul id="deadline-list"></ul>
+                </div>
+            </div>
+            <div class="part div3">
+                <div class="widget notes">
+                    <h2>Notes</h2>
+                    <textarea id="note-input" placeholder="Add your note..."></textarea>
+                </div>
+            </div>
+            <div class="part div4">
+                <div class="widget clock">
+                    <div class="clock-container">
+                        <div id="day-display">Mon</div>
+                        <div id="clock-display">00:00:00</div>
+                        <div id="clock-icon"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="part div6">
+                <!-- 6 - Google Services -->
+                <div class="widget google-services">
+
+                    <div class="more-button" id="more_action"></div>
+                    <div id="bookmark-icon" class="google-service-item">Bookmark</div>
+                    <div class="google-service-item" id="gmail"f>Gmail
+                    </div>
+                    <div class="avatar" id="avatar">
+                        <img src="https://i.pinimg.com/736x/89/aa/7b/89aa7b11da7af4138290069c68dc6d6d.jpg"
+                            alt="Account">
+                    </div>
+                </div>
+                <div id="google-popup" class="google-services-popup" style="display: none;"></div>
+            </div>
+            <div class="part div7">
+                <div class="widget weather">
+                    <div class="weather-info-container">
+                        <p id="weather-info-city"></p>
+                        <p id="weather-info-desc"></p>
+                    </div>
+                    <div id="weather-icon"></div>
+                </div>
+            </div>
+            <div class="part div8">
+                <div class="widget timer">
+                    <h2>Count Down</h2>
+                    <input type="number" id="timer-minutes" placeholder="Phút" min="1" value="25">
+                    <div id="timer-display">
+                        <div id="timer-progress"></div>
+                        <span id="timer-text">25:00</span>
+                    </div>
+                    <div class="timer-buttons">
+                        <button id="startTimer">Start</button>
+                        <button id="resetTimer">Reset</button>
+                    </div>
+                </div>
+            </div>
+            <div class="part div9">
+                <div class="widget often-used" id="often-used-container">
+                    <!-- Các mục sẽ được thêm bằng JavaScript -->
+                </div>
+            </div>
+            <div class="part div10">
+                <div class="widget urgent-deadlines">
+                    <ul id="urgent-deadline-list"></ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="newtab.js"></script>
+</body>
+
+</html>
